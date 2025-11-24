@@ -1,0 +1,20 @@
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# container-side output directory (can be mounted from host at runtime)
+ENV OUTPUT_DIR=/data
+VOLUME ["/csv"]
+
+# Install dependencies
+# . mentions current directory
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code
+# if needed we can create .dockerignore to exclude files/folders
+COPY . .
+
+CMD ["python", "pandas_and_data.py"]
